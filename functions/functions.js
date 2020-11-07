@@ -1,7 +1,18 @@
-const { awaitSpeed } = require('./await-speed')
-const { returnAwait } = require('./finished/return-await')
+const {
+  simpleAsyncReturn,
+  simpleSyncReturn,
+} = require('./finished/await-speed')
+const {
+  returnAwait,
+  simpleReturn,
+  simpleAwait,
+} = require('./finished/return-await')
 
 module.exports = {
-    awaitSpeed,
-    returnAwait,
+  simpleAsyncReturn,
+  simpleSyncReturn,
+
+  returnAwait,
+  simpleReturn,
+  simpleAwait,
 }
