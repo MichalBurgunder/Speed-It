@@ -13,7 +13,7 @@ async function asyncFuncAwait() {
 
 module.exports = {
   returnAwait: {
-    dataset: 'Return Await',
+    name: 'Return Await',
     function: asyncFuncReturnAwait,
   },
   simpleReturn: { name: 'Simple Return', function: syncFuncReturn },

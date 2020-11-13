@@ -1,7 +1,3 @@
-// await efficiency?
-const { performance } = require('perf_hooks')
-const { COUNTS } = require('../../globals')
-
 async function asyncReturn() {
   return 'returned!'
 }

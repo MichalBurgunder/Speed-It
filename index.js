@@ -1,16 +1,16 @@
 const {
   performanceChecker,
 } = require('./performance-checker/performance-checker')
-const { returnAwait } = require('./functions/functions')
+const { pushAssignment, directAssignment } = require('./functions/functions')
 
-function la() {
-  return 0
-}
 const main = async () => {
-  const theAnalysis = await performanceChecker(returnAwait.function, {
-    names: returnAwait.dataset,
-    expectError: true,
-  })
+  const theAnalysis = await performanceChecker(
+    [pushAssignment.function, directAssignment.function],
+    {
+      inputs: [[], []],
+      names: [pushAssignment.name, directAssignment.name],
+    }
+  )
   console.log(theAnalysis)
 }
 
