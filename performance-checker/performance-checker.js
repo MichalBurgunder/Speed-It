@@ -4,7 +4,7 @@ const { analyzeData } = require('./data-analyzer')
 function normalizeOptions(theFunctions, options) {
   const finalFunctions =
     theFunctions instanceof Array ? theFunctions : [theFunctions]
-  console.log(theFunctions)
+
   // Let's name our function to ease display
   let finalNames
   if (options && options.names) {
@@ -56,9 +56,7 @@ async function performanceChecker(theFunctions, options) {
     theFunctions,
     options
   )
-  console.log(finalFunctions)
-  console.log(finalNames)
-  console.log(finalExpectError)
+
   const rawData = []
   for (let i = 0; i < finalFunctions.length; i++) {
     const functionRawData = await collectData(
