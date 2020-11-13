@@ -1,4 +1,4 @@
-const COUNTS = 10
+const COUNTS = 1000
 const ERROR_OUT_AT = COUNTS / 100
 
 module.exports = {

@@ -9,6 +9,7 @@ function analyzeData(rawData) {
     variance: [],
     std: [],
     dataPoints: rawData.length,
+    // rawData: rawData,
   }
 
   finalAnalysis.min.push(ss.min(rawData))

@@ -5,7 +5,6 @@ function pushAssignment(data, element) {
 }
 
 function directAssignment(data, element) {
-  console.log(data)
   data[data.length] = element
 }
 

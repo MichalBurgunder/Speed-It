@@ -11,6 +11,7 @@ const { normalizeOptions } = require('./option-normalizer')
  * errors: [Boolean] | String whether we are expecting an error to be received by the function (default false)
  * inputs: [Array] An array of inputs
  * constInput: {Boolean} // TODO
+ * verbose: {Boolean} gives back all analyzed data (default false)
  * }
  */
 async function performanceChecker(theFunctions, options) {
@@ -27,6 +28,9 @@ async function performanceChecker(theFunctions, options) {
     const analysis = await analyzeData(rawData[i], batch.names[i])
     analyzedData.push(analysis)
     analyzedData[i].name = batch.names[i]
+    if (options.verbose) {
+      delete analyzedData[i].rawData
+    }
   }
   return analyzedData
 }
