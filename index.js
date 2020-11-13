@@ -1,14 +1,14 @@
 const {
   performanceChecker,
 } = require('./performance-checker/performance-checker')
-const { pushAssignment, directAssignment } = require('./functions/functions')
+const { serialAwait, promiseDotAllAwait } = require('./functions/functions')
 
 const main = async () => {
   const theAnalysis = await performanceChecker(
-    [pushAssignment.function, directAssignment.function],
+    [serialAwait.function, promiseDotAllAwait.function],
     {
-      inputs: [[], []],
-      names: [pushAssignment.name, directAssignment.name],
+      names: [serialAwait.name, promiseDotAllAwait.name],
+      inputs: [1, 2],
     }
   )
   console.log(theAnalysis)

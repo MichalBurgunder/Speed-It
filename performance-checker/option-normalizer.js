@@ -36,16 +36,43 @@ function normalizeOptions(theFunctions, options) {
     throw new Error('errors array is not the same length as the function array')
   }
 
-  // Option: inputs
+  // Option: inputs && numberInputs
   // let's normalize the inputs
-  let inputs
+
+  let inputs = []
   if (options.inputs) {
     if (options.inputs.length !== functions.length) {
       throw new Error("You don't the right number of inputs")
+    } else {
+      // lets normalize number of inputs!
+      let numberInputs
+      if (options.numberInputs) {
+        // validate type
+        options.numberInputs.forEach((num) => {
+          if (!Number.isInteger(num)) {
+            throw new Error('Number given in number inputs is not an integer')
+          }
+        })
+        // validate length
+        if (options.numberInputs.length !== functions.length) {
+          throw new Error("You don't the right number of numberInputs")
+        }
+        numberInputs = options.numberInputs
+      } else {
+        // default is 1 input
+        numberInputs = functions.map(() => 1)
+      }
+      // now we finally push the final inputs
+      for (let i = 0; i < numberInputs.length; i++) {
+        if (numberInputs[i] > 1) {
+          inputs.push(inputs[i])
+        } else {
+          inputs.push([inputs[i]])
+        }
+      }
     }
-    inputs = options.inputs
   } else {
-    inputs = null
+    inputs = functions.map(() => [])
   }
 
   return { functions, names, errors, inputs }

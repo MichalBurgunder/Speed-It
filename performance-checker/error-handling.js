@@ -1,8 +1,8 @@
 const { COUNTS, ERROR_OUT_AT } = require('../globals')
 
-function errorHandlingProcess(error, rawData, countsOfError, options, i) {
+function errorHandlingProcess(countsOfError, options, pos, i) {
   if (options.errors && options.errors[pos]) {
-    rawData.push(afterAwait - beforeAwait)
+    return true
   } else {
     countsOfError += 1
     // we're not sure what happened, so let's omit this entry

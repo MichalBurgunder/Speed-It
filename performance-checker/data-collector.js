@@ -1,4 +1,4 @@
-const { COUNTS, ERROR_OUT_AT } = require('../globals')
+const { COUNTS } = require('../globals')
 const { performance } = require('perf_hooks')
 const { errorHandlingProcess } = require('./error-handling')
 
@@ -13,32 +13,25 @@ async function collectData(theFunction, options, pos) {
     try {
       if (theFunction[Symbol.toStringTag] === 'AsyncFunction') {
         // we run it asynchronously
-        if (options.inputs && options.inputs[pos]) {
-          beforeAwait = performance.now()
-          await theFunction(options.inputs[pos])
-          afterAwait = performance.now()
-        } else {
-          beforeAwait = performance.now()
-          await theFunction()
-          afterAwait = performance.now()
-        }
+
+        beforeAwait = performance.now()
+        await theFunction(...options.inputs[pos])
+        afterAwait = performance.now()
       } else {
         // we run it synchronously
-        if (options.inputs && options.inputs[pos]) {
-          beforeAwait = performance.now()
-          theFunction(options.inputs[pos])
-          afterAwait = performance.now()
-        } else {
-          beforeAwait = performance.now()
-          theFunction()
-          afterAwait = performance.now()
-        }
+
+        beforeAwait = performance.now()
+        theFunction(...options.inputs[pos])
+        afterAwait = performance.now()
       }
 
       rawData.push(afterAwait - beforeAwait)
     } catch (error) {
       afterAwait = performance.now() // in case we expected the error
-      errorHandlingProcess(error, rawData, countsOfError, options, i)
+      const handled = errorHandlingProcess(countsOfError, options, pos, i)
+      if (handled) {
+        rawData.push(afterAwait - beforeAwait)
+      }
     }
   }
   return rawData

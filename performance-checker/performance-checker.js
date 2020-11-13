@@ -5,11 +5,12 @@ const { normalizeOptions } = require('./option-normalizer')
  *
  * @param {[Function] | Function} theFunctions
  * Either an array of functions, or a single function
- * @param {*} options
+ * @param {Object} options
  *  {
  *  names: {[String] | String} an array of names, parallel to the functions, in order to prettify graph display. If not given, will name the functions in a standard way
  * errors: [Boolean] | String whether we are expecting an error to be received by the function (default false)
  * inputs: [Array] An array of inputs
+ * numberInputs: [Number] The number of inputs for each function
  * constInput: {Boolean} // TODO
  * verbose: {Boolean} gives back all analyzed data (default false)
  * }
