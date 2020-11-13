@@ -20,22 +20,20 @@ function normalizeOptions(theFunctions, options) {
     }
   }
 
-  // Options: expectError
-  let expectError = []
-  if (!options || !options.expectError) {
+  // Options: errors
+  let errors = []
+  if (!options || !options.errors) {
     for (let i = 0; i < functions.length; i++) {
-      expectError.push(false)
+      errors.push(false)
     }
   } else if (
     options &&
-    typeof options.expectError === typeof true &&
+    typeof options.errors === typeof true &&
     functions.length === 1
   ) {
-    expectError = [options.expectError]
-  } else if (options && options.expectError.length !== functions.length) {
-    throw new Error(
-      'expectError array is not the same length as the function array'
-    )
+    errors = [options.errors]
+  } else if (options && options.errors.length !== functions.length) {
+    throw new Error('errors array is not the same length as the function array')
   }
 
   // Option: inputs
@@ -50,7 +48,7 @@ function normalizeOptions(theFunctions, options) {
     inputs = null
   }
 
-  return { functions, names, expectError, inputs }
+  return { functions, names, errors, inputs }
 }
 
 module.exports = { normalizeOptions }

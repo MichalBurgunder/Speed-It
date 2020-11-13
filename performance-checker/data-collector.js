@@ -39,7 +39,7 @@ async function collectData(theFunction, options, pos) {
     rawData.push(afterAwait - beforeAwait)
     // } catch (error) {
     //   afterAwait = performance.now() // incase we expected the error
-    //   if (options.expectError && options.expectError[pos]) {
+    //   if (options.errors && options.errors[pos]) {
     //     rawData.push(afterAwait - beforeAwait)
     //   } else {
     //     countsOfError += 1

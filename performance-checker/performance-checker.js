@@ -8,7 +8,7 @@ const { normalizeOptions } = require('./option-normalizer')
  * @param {*} options
  *  {
  *  names: {[String] | String} an array of names, parallel to the functions, in order to prettify graph display. If not given, will name the functions in a standard way
- * expectError: [Boolean] | String whether we are expecting an error to be received by the function
+ * errors: [Boolean] | String whether we are expecting an error to be received by the function (default false)
  * inputs: [Array] An array of inputs
  * constInput: {Boolean} // TODO
  * }
