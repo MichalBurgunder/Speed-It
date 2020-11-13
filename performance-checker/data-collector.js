@@ -1,5 +1,6 @@
 const { COUNTS, ERROR_OUT_AT } = require('../globals')
 const { performance } = require('perf_hooks')
+const { errorHandlingProcess } = require('./error-handling')
 
 async function collectData(theFunction, options, pos) {
   let rawData = []
@@ -12,7 +13,7 @@ async function collectData(theFunction, options, pos) {
     try {
       if (theFunction[Symbol.toStringTag] === 'AsyncFunction') {
         // we run it asynchronously
-        if (options.inputs[pos]) {
+        if (options.inputs && options.inputs[pos]) {
           beforeAwait = performance.now()
           await theFunction(options.inputs[pos])
           afterAwait = performance.now()
@@ -25,7 +26,6 @@ async function collectData(theFunction, options, pos) {
         // we run it synchronously
         if (options.inputs && options.inputs[pos]) {
           beforeAwait = performance.now()
-
           theFunction(options.inputs[pos])
           afterAwait = performance.now()
         } else {
@@ -37,19 +37,8 @@ async function collectData(theFunction, options, pos) {
 
       rawData.push(afterAwait - beforeAwait)
     } catch (error) {
-      afterAwait = performance.now() // incase we expected the error
-      if (options.errors && options.errors[pos]) {
-        rawData.push(afterAwait - beforeAwait)
-      } else {
-        countsOfError += 1
-        // we're not sure what happened, so let's omit this entry
-        if (ERROR_OUT_AT < countsOfError) {
-          throw new Error(
-            `Cannot collect data: Too many errors. Error:\n${error}`
-          )
-        }
-        i -= 1
-      }
+      afterAwait = performance.now() // in case we expected the error
+      errorHandlingProcess(error, rawData, countsOfError, options, i)
     }
   }
   return rawData
