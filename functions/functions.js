@@ -8,6 +8,7 @@ const {
   simpleAwait,
 } = require('./finished/return-await')
 const { pushAssignment, directAssignment } = require('./finished/array-assign')
+const { serialAwait, promiseDotAllAwait } = require('./finished/promise-all')
 
 module.exports = {
   // async time length
@@ -22,4 +23,8 @@ module.exports = {
   // array assginment
   pushAssignment,
   directAssignment,
+
+  // promise.all vs simple await
+  serialAwait,
+  promiseDotAllAwait,
 }
