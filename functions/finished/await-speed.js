@@ -10,6 +10,6 @@ function syncReturn() {
 }
 
 module.exports = {
-  simpleSyncReturn: { dataset: 'Sync Simple Return', function: syncReturn },
-  simpleAsyncReturn: { dataset: 'Async Simple Return', function: asyncReturn },
+  simpleSyncReturn: { name: 'Sync Simple Return', function: syncReturn },
+  simpleAsyncReturn: { name: 'Async Simple Return', function: asyncReturn },
 }

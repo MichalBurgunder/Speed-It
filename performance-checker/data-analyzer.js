@@ -8,6 +8,7 @@ function analyzeData(rawData) {
     median: [],
     variance: [],
     std: [],
+    dataPoints: rawData.length,
   }
 
   finalAnalysis.min.push(ss.min(rawData))

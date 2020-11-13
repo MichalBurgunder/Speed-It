@@ -16,6 +16,6 @@ module.exports = {
     dataset: 'Return Await',
     function: asyncFuncReturnAwait,
   },
-  simpleReturn: { dataset: 'Simple Return', function: syncFuncReturn },
-  simpleAwait: { dataset: 'Simple Await', function: asyncFuncAwait },
+  simpleReturn: { name: 'Simple Return', function: syncFuncReturn },
+  simpleAwait: { name: 'Simple Await', function: asyncFuncAwait },
 }
