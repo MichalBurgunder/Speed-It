@@ -65,9 +65,9 @@ function normalizeOptions(theFunctions, options) {
       // now we finally push the final inputs
       for (let i = 0; i < numberInputs.length; i++) {
         if (numberInputs[i] > 1) {
-          inputs.push(inputs[i])
+          inputs.push(options.inputs[i])
         } else {
-          inputs.push([inputs[i]])
+          inputs.push([options.inputs[i]])
         }
       }
     }
