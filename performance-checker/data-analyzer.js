@@ -1,6 +1,12 @@
 const ss = require('simple-statistics')
 
-function analyzeData(rawData) {
+// const { removeAnomalies } = require('./anomaly-detection')
+
+function analyzeData(rawData, options) {
+  // const newRawData = options.anomalyDetection
+  //   ? removeAnomalies(rawData)
+  //   : rawData
+
   const finalAnalysis = {
     min: [],
     max: [],

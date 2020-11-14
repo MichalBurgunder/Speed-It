@@ -9,6 +9,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "isolation-forest": "^0.0.8",
     "simple-statistics": "^7.3.0"
   }
 }
