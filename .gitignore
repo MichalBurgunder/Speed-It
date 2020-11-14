@@ -1,3 +1,5 @@
 node_modules
 .prettierrc.json
 playground.js
+.gitignore
+package-lock.json
