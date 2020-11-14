@@ -14,7 +14,11 @@ const {
   letInLoop,
   varInLoop,
 } = require('./finished/const-let-var-in-for')
-
+const {
+  addOneMap,
+  addOneFor,
+  addOneForEach,
+} = require('./finished/map-vs-for-vs-for-each')
 module.exports = {
   // async time length
   simpleAsyncReturn,
@@ -37,4 +41,9 @@ module.exports = {
   constInLoop,
   letInLoop,
   varInLoop,
+
+  // add one for, map, forEach
+  addOneMap,
+  addOneFor,
+  addOneForEach,
 }
