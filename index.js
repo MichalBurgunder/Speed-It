@@ -1,14 +1,13 @@
 const {
   performanceChecker,
 } = require('./performance-checker/performance-checker')
-const { serialAwait, promiseDotAllAwait } = require('./functions/functions')
+const { constInLoop, letInLoop, varInLoop } = require('./functions/functions')
 
 const main = async () => {
   const theAnalysis = await performanceChecker(
-    [serialAwait.function, promiseDotAllAwait.function],
+    [constInLoop.function, letInLoop.function, varInLoop.function],
     {
-      names: [serialAwait.name, promiseDotAllAwait.name],
-      inputs: [1, 2],
+      names: [constInLoop.name, letInLoop.name, varInLoop.name],
     }
   )
   console.log(theAnalysis)
