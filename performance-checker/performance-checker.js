@@ -8,11 +8,11 @@ const { normalizeOptions } = require('./option-normalizer')
  * @param {Object} options
  *  {
  *  names: {[String] | String} an array of names, parallel to the functions, in order to prettify graph display. If not given, will name the functions in a standard way
- * errors: [Boolean] | String whether we are expecting an error to be received by the function (default false)
+ * error: {[Boolean]} | String whether we are expecting an error to be received by the function (default false)
  * inputs: [Array] An array of inputs
- * numberInputs: [Number] The number of inputs for each function
- * constInput: {Boolean} // TODO
- * verbose: {Boolean} gives back all analyzed data (default false)
+ * multipleInputs: {Boolean} Whether you are inputting mutiple inputs
+ * variableInput: {Boolean} // TODO // Whether the same input should be used in order to test cumulative behaviour
+ * raw: {Boolean} gives back all analyzed data (default false)
  * }
  */
 async function performanceChecker(theFunctions, options) {
@@ -26,14 +26,11 @@ async function performanceChecker(theFunctions, options) {
   }
   const analyzedData = []
   for (let i = 0; i < rawData.length; i++) {
-    const analysis = await analyzeData(rawData[i], batch.names[i])
+    const analysis = await analyzeData(rawData[i], batch.options)
     analyzedData.push(analysis)
     analyzedData[i].name = batch.names[i]
-    if (options.verbose) {
-      delete analyzedData[i].rawData
-    }
   }
-  return analyzedData
+  return analyzedData.length === 1 ? analyzedData[0] : analyzedData
 }
 
-module.exports = { performanceChecker }
+module.exports = { speeder: performanceChecker }

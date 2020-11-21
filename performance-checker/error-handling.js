@@ -1,7 +1,7 @@
-const { COUNTS, ERROR_OUT_AT } = require('./performance-checker/globals')
+const { COUNTS, ERROR_OUT_AT } = require('./globals')
 
 function errorHandlingProcess(countsOfError, options, pos, i) {
-  if (options.errors && options.errors[pos]) {
+  if (options.errors[pos]) {
     return true
   } else {
     countsOfError += 1
