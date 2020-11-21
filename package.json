@@ -10,5 +10,10 @@
   "description": "",
   "dependencies": {
     "simple-statistics": "7.3.0"
+  },
+  "devDependencies": {
+    "nyc": "15.1.0",
+    "istanbul": "0.4.5",
+    "mocha": "8.2.1"
   }
 }
