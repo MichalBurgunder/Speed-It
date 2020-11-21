@@ -1,4 +1,4 @@
-const { COUNTS } = require('../globals')
+const { COUNTS } = require('./globals')
 const { performance } = require('perf_hooks')
 const { errorHandlingProcess } = require('./error-handling')
 
