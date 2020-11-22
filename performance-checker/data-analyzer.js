@@ -1,6 +1,9 @@
 const ss = require('simple-statistics')
 
 function analyzeData(rawData, options) {
+  if (rawData.length === 0) {
+    throw new Error("Couldn't collect any data points for analysis")
+  }
   const finalAnalysis = {
     min: ss.min(rawData),
     max: ss.max(rawData),

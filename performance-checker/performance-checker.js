@@ -7,12 +7,16 @@ const { normalizeOptions } = require('./option-normalizer')
  * Either an array of functions, or a single function
  * @param {Object} options
  *  {
- *  names: {[String] | String} an array of names, parallel to the functions, in order to prettify graph display. If not given, will name the functions in a standard way
- * error: {[Boolean]} | String whether we are expecting an error to be received by the function (default false)
- * inputs: [Array] An array of inputs
- * multipleInputs: {Boolean} Whether you are inputting mutiple inputs
- * variableInput: {Boolean} // TODO // Whether the same input should be used in order to test cumulative behaviour
- * raw: {Boolean} gives back all analyzed data (default false)
+ *  @param {[String] | String} names:  an array of names, parallel to the functions, in order to prettify graph display. If not given, will name the functions in a standard way
+ *  @param {[Boolean]} error:  whether we are expecting an error to be received by the function (default false)
+ *  @param {[Object]} inputs:  An array of inputs
+ *  @param {Boolean} multipleInputs:  Whether you are inputting mutiple inputs
+ *  @param {Boolean} variableInput:  // TODO // Whether the same input should be used in order to test cumulative behaviour
+ *  @param {Boolean} raw:  gives back all analyzed data (default false)
+ *  @param {Boolean} basicAnalysis: returns the basic analysis TODO
+ *  @param {Number} counts: TODO Determines how many times the function should be run
+ *  @param {[Number]} errorOutAfter: TODO gives a percentage of how many thrown errors are accepted (assumes error is false)
+ *
  * }
  */
 async function performanceChecker(theFunctions, options) {
