@@ -100,7 +100,7 @@ function normalizeOptions(theFunctions, options) {
           )
         } else if (
           finalOptions.multipleInputs.filter(
-            (mInput) => typeof nInput !== typeof true
+            (mInput) => typeof mInput !== typeof true
           ).length !== 0
         ) {
           throw new Error('No all of your multiple inputs are boolean')
