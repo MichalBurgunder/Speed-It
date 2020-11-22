@@ -12,6 +12,8 @@ function normalizeOptions(theFunctions, options) {
   if (finalOptions.names) {
     if (finalOptions.names instanceof Array) {
       names = finalOptions.names
+    } else if (typeof finalOptions.names !== typeof '') {
+      throw new Error('Function name must be a string')
     } else {
       // singular name for singular function
       names = [finalOptions.names]
@@ -30,14 +32,18 @@ function normalizeOptions(theFunctions, options) {
     for (let i = 0; i < functions.length; i++) {
       errors.push(false)
     }
-  } else if (typeof finalOptions.errors === typeof true) {
+  } else if (finalOptions.errors === true) {
     for (let i = 0; i < functions.length; i++) {
       errors.push(true)
     }
-  }
-  if (finalOptions.errors.length !== functions.length) {
+  } else if (
+    finalOptions.errors &&
+    finalOptions.errors.length !== functions.length
+  ) {
     throw new Error('errors array is not the same length as the function array')
   }
+
+  finalOptions.errors = errors
 
   // Option: inputs && multipleInputs
   // let's normalize the inputs
@@ -51,11 +57,26 @@ function normalizeOptions(theFunctions, options) {
       let multipleInputs
       if (finalOptions.multipleInputs) {
         // validate type
-        finalOptions.multipleInputs.forEach((num) => {
-          if (!Number.isInteger(num)) {
-            throw new Error('Number given in number inputs is not an integer')
+        if (typeof finalOptions.multipleInputs === typeof true) {
+          // let's create an array out of them
+          theMultipleInputs = []
+          for (let i = 0; i < functions.length; i++) {
+            theMultipleInputs.push(finalOptions.multipleInputs)
           }
-        })
+          finalOptions.multipleInputs = theMultipleInputs
+        } else if (!(finalOptions.multipleInputs instanceof Array)) {
+          throw new Error(
+            'Multiple inputs must accept either a boolean, or an array of booleans'
+          )
+        } else {
+          // it's an array, let's check contents
+          finalOptions.multipleInputs.forEach((mInput) => {
+            if (typeof mInput !== typeof true) {
+              throw new Error('Elements in multiple inputs must be boolean')
+            }
+          })
+        }
+
         // validate length
         if (finalOptions.multipleInputs.length !== functions.length) {
           throw new Error("You don't the right number of multipleInputs")

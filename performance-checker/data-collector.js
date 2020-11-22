@@ -5,7 +5,6 @@ const { errorHandlingProcess } = require('./error-handling')
 async function collectData(theFunction, options, pos) {
   let rawData = []
   let countsOfError = 0
-  console.log(options.inputs)
   // we measure this function as an async function
 
   for (let i = 0; i < COUNTS; i++) {

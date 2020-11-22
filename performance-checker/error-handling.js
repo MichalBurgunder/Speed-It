@@ -1,4 +1,4 @@
-const { COUNTS, ERROR_OUT_AT } = require('./globals')
+const { ERROR_OUT_AT } = require('./globals')
 
 function errorHandlingProcess(countsOfError, options, pos, i) {
   if (options.errors[pos]) {
