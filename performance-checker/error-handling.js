@@ -5,7 +5,6 @@ function errorHandlingProcess(countsOfError, options, pos, i) {
     return true
   } else {
     // we're not sure what happened, so let's omit this entry
-    console.log(countsOfError)
     if (countsOfError > options.errorOutAfter[pos]) {
       throw new Error(`Cannot collect data: Too many errors. Error:\n${error}`)
     }

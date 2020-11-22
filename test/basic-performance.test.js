@@ -24,8 +24,8 @@ describe('speeder', () => {
         assert.strictEqual(result.median * 0, 0)
         assert.strictEqual(result.variance * 0, 0)
         assert.strictEqual(result.std * 0, 0)
-        assert.strictEqual(result.dataPoints * 0, 0)
-        assert.strictEqual(result.rawData, undefined)
+        assert.strictEqual(result.counts * 0, 0)
+        assert.strictEqual(result.raw, undefined)
       })
     })
     it('multiple functions returns array of results', async () => {
@@ -119,9 +119,24 @@ describe('speeder', () => {
           await speeder(errorFunction, { errorOutAfter: 10, counts: 1000 })
           throw new Error('false error')
         } catch (error) {
-          console.log(error)
           if (error.message === 'false error') {
             throw new Error(error)
+          }
+        }
+      })
+      it('works when multiple functions & errors were inputted', async () => {
+        await speeder([testFunction, testFunction], {
+          errors: [true, true],
+        }).then((result) => assert.strictEqual(result[0].counts, COUNTS))
+      })
+      it('throws error when errors not the same length as functions', async () => {
+        try {
+          await speeder([testFunction, testFunction], {
+            errors: [true, true, true],
+          }).then((result) => assert.strictEqual(result[0].counts, COUNTS))
+        } catch (error) {
+          if (error.message === 'false error') {
+            throw new Error(error.message)
           }
         }
       })
@@ -131,17 +146,22 @@ describe('speeder', () => {
         await speeder(testFunction, {
           raw: true,
         }).then((result) => {
-          assert.strictEqual(!!result.rawData, true)
-          assert.strictEqual(result.rawData.length, COUNTS)
+          assert.strictEqual(!!result.raw, true)
+          assert.strictEqual(result.raw.length, COUNTS)
         })
       })
       it('outputs no rawData if set to false', async () => {
         speeder(testFunction).then((result) => {
-          assert.strictEqual(!!result.rawData, false)
+          assert.strictEqual(!!result.raw, false)
         })
       })
     })
     describe('names', () => {
+      it('single name, for single function', async () => {
+        await speeder(testFunction, {
+          names: 'inputted name',
+        }).then((result) => assert.strictEqual(result.name, 'inputted name'))
+      })
       it('gives each analysis given names', async () => {
         await speeder([testFunction, testFunctionAsync], {
           names: ['My Function', 'My Second Function'],
