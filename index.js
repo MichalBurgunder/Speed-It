@@ -1,4 +1,4 @@
-const { speeder } = require('./performance-checker/performance-checker')
+const { speeder } = require('./speeder/performance-checker')
 
 // const speeder = async () => {
 //   const theAnalysis = await performanceChecker(

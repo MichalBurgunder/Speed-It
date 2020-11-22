@@ -1,6 +1,6 @@
 const assert = require('assert')
 const speeder = require('../index')
-const { COUNTS } = require('../performance-checker/globals')
+const { COUNTS } = require('../speeder/globals')
 
 describe('speeder', () => {
   async function testFunctionAsync() {
