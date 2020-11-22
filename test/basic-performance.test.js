@@ -114,6 +114,17 @@ describe('speeder', () => {
           assert.strictEqual(typeof result.mean, typeof 8.8)
         )
       })
+      it('errors out after a certain amount of errors', async () => {
+        try {
+          await speeder(errorFunction, { errorOutAfter: 10, counts: 1000 })
+          throw new Error('false error')
+        } catch (error) {
+          console.log(error)
+          if (error.message === 'false error') {
+            throw new Error(error)
+          }
+        }
+      })
     })
     describe('raw', () => {
       it('outputs rawData if set to true', async () => {

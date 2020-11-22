@@ -1,7 +1,9 @@
 const ss = require('simple-statistics')
+const { normalizeOptions } = require('./option-normalizer')
 
 function analyzeData(rawData, options) {
   if (rawData.length === 0) {
+    console.log(options)
     throw new Error("Couldn't collect any data points for analysis")
   }
   const finalAnalysis = {

@@ -2,7 +2,7 @@ const { COUNTS } = require('./globals')
 const { performance } = require('perf_hooks')
 const { errorHandlingProcess } = require('./error-handling')
 
-async function collectData(theFunction, options, pos) {
+async function collectData(theFunction, batch, pos) {
   let rawData = []
   let countsOfError = 0
   // we measure this function as an async function
@@ -10,7 +10,7 @@ async function collectData(theFunction, options, pos) {
   for (let i = 0; i < COUNTS; i++) {
     let beforeAwait
     let afterAwait
-    const copiedInputs = [...options.inputs[pos]]
+    const copiedInputs = [...batch.inputs[pos]]
     try {
       if (theFunction[Symbol.toStringTag] === 'AsyncFunction') {
         // we run it asynchronously
@@ -28,10 +28,11 @@ async function collectData(theFunction, options, pos) {
       rawData.push(afterAwait - beforeAwait)
     } catch (error) {
       afterAwait = performance.now() // in case we expected the error
-      const handled = errorHandlingProcess(countsOfError, options, pos, i)
+      const handled = errorHandlingProcess(countsOfError, batch.options, pos, i)
       if (handled) {
         rawData.push(afterAwait - beforeAwait)
       }
+      countsOfError = countsOfError + 1
     }
   }
   return rawData
