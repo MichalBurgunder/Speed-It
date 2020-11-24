@@ -140,6 +140,42 @@ describe('speeder', () => {
           }
         }
       })
+      it('throws error when errorOutAfter does not have correct number of inputs', async () => {
+        try {
+          await speeder([testFunction, testFunction], {
+            errorOutAfter: [1, 1, 1],
+          }).then((result) => assert.strictEqual(result[0].counts, COUNTS))
+          throw new Error('false error')
+        } catch (error) {
+          console.log(error)
+          if (error.message === 'false error') {
+            throw new Error(error.message)
+          }
+        }
+      })
+      it('throws error when errorOutAfter contains a wrong input', async () => {
+        try {
+          await speeder([testFunction, testFunction], {
+            errorOutAfter: [1, 1.8],
+          }).then((result) => assert.strictEqual(result[0].counts, COUNTS))
+          throw new Error('false error')
+        } catch (error) {
+          if (error.message === 'false error') {
+            throw new Error(error.message)
+          }
+        }
+
+        try {
+          await speeder([testFunction, testFunction], {
+            errorOutAfter: [1, 'false input'],
+          }).then((result) => assert.strictEqual(result[0].counts, COUNTS))
+          throw new Error('false error')
+        } catch (error) {
+          if (error.message === 'false error') {
+            throw new Error(error.message)
+          }
+        }
+      })
     })
     describe('raw', () => {
       it('outputs rawData if set to true', async () => {
@@ -204,7 +240,94 @@ describe('speeder', () => {
           }
         }
       })
+      it('multipleInputs is true ', async () => {
+        try {
+          await speeder(testFunction, {
+            inputs: true,
+            multipleInputs: true,
+          })
+          throw new Error('false error')
+        } catch (error) {
+          if (error.message === 'false error') {
+            throw new Error(error)
+          }
+        }
+      })
+      it('2 functions, 2 inputs', async () => {
+        await speeder([testFunction, testFunction], {
+          inputs: [true, true],
+          multipleInputs: true,
+        })
+      })
+      it('1 functions, 1 inputs, multipleInputs true', async () => {
+        try {
+          await speeder(testFunction, {
+            inputs: true,
+            multipleInputs: true,
+          })
+          throw new Error('false error')
+        } catch (error) {
+          if (error.message === 'false error') {
+            throw new Error(error)
+          }
+        }
+      })
+      it('multipleInputs not boolean, not an array', async () => {
+        try {
+          await speeder(testFunction, {
+            inputs: true,
+            multipleInputs: 'This will throw',
+          })
+          throw new Error('false error')
+        } catch (error) {
+          if (error.message === 'false error') {
+            throw new Error(error)
+          }
+        }
+      })
+      it('multipleInputs array, with non-boolean inputs', async () => {
+        try {
+          await speeder(testFunction, {
+            inputs: true,
+            multipleInputs: ['This will also throw'],
+          })
+          throw new Error('false error')
+        } catch (error) {
+          if (error.message === 'false error') {
+            throw new Error(error)
+          }
+        }
+      })
+      it('multipleInputs array, incorrect number of inputs', async () => {
+        try {
+          await speeder([testFunction, testFunction], {
+            inputs: [
+              [4, 4],
+              [4, 4],
+            ],
+            multipleInputs: [true, true, true, true],
+          })
+          throw new Error('false error')
+        } catch (error) {
+          if (error.message === 'false error') {
+            throw new Error(error)
+          }
+        }
+      })
+
+      it('1 input, no multiple inputs', async () => {
+        await speeder(testFunction, {
+          inputs: 4,
+        })
+      })
+      it('2 functions, 1 mutliple inputs, 1 not', async () => {
+        await speeder([testFunction, testFunction], {
+          inputs: [4, [5, 5]],
+          multipleInputs: [false, true],
+        })
+      })
     })
+
     it('throws error with single input, multipleInputs (array input)', async () => {
       try {
         await speeder(testFunction, { inputs: true, multipleInputs: true })
@@ -216,13 +339,13 @@ describe('speeder', () => {
         // well done
       }
     })
-    it('works with multiple inputs, multipleInputs (bolean input)', async () => {
-      const result = await speeder([testFunction, testFunction], {
+    it('works with multiple inputs, multipleInputs (boolean input)', async () => {
+      await speeder([testFunction, testFunction], {
         inputs: [
           [77, 88],
           [77, 88],
         ],
-        multipleInputs: false,
+        multipleInputs: true,
       }).then(() => {})
     })
     it('works with multiple inputs, multipleInputs (array input)', async () => {

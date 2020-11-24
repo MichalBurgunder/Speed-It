@@ -63,7 +63,7 @@ function normalizeOptions(theFunctions, options) {
       functions.length !== 1
     ) {
       throw new Error(
-        "You don't have enough errorOutAfter inputs (must be same length as inputted functions)"
+        "You don't have the correct number of errorOutAfter inputs (must be same length as inputted functions)"
       )
     }
     if (typeof finalOptions.errorOutAfter === typeof 99) {
@@ -72,7 +72,12 @@ function normalizeOptions(theFunctions, options) {
     finalOptions.errorOutAfter.forEach((num) => {
       if (typeof num !== typeof 8) {
         throw new Error(
-          'The inputted errorOutArray contains an element that is ont a number'
+          'The inputted errorOutArray contains an element that is not a number'
+        )
+      }
+      if (num % 1 !== 0) {
+        throw new Error(
+          'The inputted errorOutArray contains an element that is not an integer'
         )
       }
     })
@@ -81,32 +86,31 @@ function normalizeOptions(theFunctions, options) {
   // let's normalize the inputs
 
   let inputs = []
-  if (finalOptions.inputs) {
+  if (finalOptions.inputs !== undefined) {
     // lets normalize number of inputs
     let multipleInputs
-    if (finalOptions.multipleInputs) {
+    if (
+      finalOptions.multipleInputs !== undefined &&
+      finalOptions.multipleInputs !== false
+    ) {
       // validate type
       if (typeof finalOptions.multipleInputs === typeof true) {
-        if (functions.length !== 1) {
-          throw new Error(
-            'You need to input an array of elements for multiple inputs'
-          )
-        } else if (
+        if (
           !(finalOptions.inputs instanceof Array) ||
           finalOptions.inputs.length < 2
         ) {
           throw new Error(
             'You set multipleInputs to true, but your input does not have more than one element'
           )
-        } else if (
-          finalOptions.multipleInputs.filter(
-            (mInput) => typeof mInput !== typeof true
-          ).length !== 0
-        ) {
-          throw new Error('No all of your multiple inputs are boolean')
+        } else if (functions.length !== finalOptions.inputs.length) {
+          throw new Error(
+            'The number of inputs is not the same as number of functions'
+          )
         } else {
           // we set the inputs and multipleInputs to arrays
-          finalOptions.multipleInputs = [finalOptions.multipleInputs]
+          finalOptions.multipleInputs = functions.map(
+            () => finalOptions.multipleInputs
+          )
         }
       } else if (!(finalOptions.multipleInputs instanceof Array)) {
         throw new Error(
@@ -127,13 +131,13 @@ function normalizeOptions(theFunctions, options) {
       }
       multipleInputs = finalOptions.multipleInputs
     } else {
-      // default is 1 input
+      // defaults to 1 input anyway
       multipleInputs = functions.map(() => true)
     }
 
     // now we finally push the final inputs
     for (let i = 0; i < multipleInputs.length; i++) {
-      if (multipleInputs[i] > 1) {
+      if (multipleInputs[i] === true) {
         inputs.push(finalOptions.inputs[i])
       } else {
         inputs.push([finalOptions.inputs[i]])
