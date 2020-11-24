@@ -82,67 +82,71 @@ function normalizeOptions(theFunctions, options) {
       }
     })
   }
-  // Option: inputs && multipleInputs
-  // let's normalize the inputs
 
+  // Option: multipleInputs
+  if (finalOptions.multipleInputs !== undefined) {
+    // boolean
+    if (typeof finalOptions.multipleInputs === typeof true) {
+      // we set the inputs and multipleInputs to arrays
+      finalOptions.multipleInputs = functions.map(
+        () => finalOptions.multipleInputs
+      )
+    } else if (!(finalOptions.multipleInputs instanceof Array)) {
+      throw new Error(
+        'Multiple inputs must accept either a boolean, or an array of booleans'
+      )
+    } else if (finalOptions.multipleInputs.length !== functions.length) {
+      throw new Error(
+        "You've inputted the wrong amount of multiple input arguments"
+      )
+    } else {
+      // it's an array, we're good. Let's check contents
+      finalOptions.multipleInputs.forEach((mInput) => {
+        if (typeof mInput !== typeof true) {
+          throw new Error('Elements in multiple inputs must be boolean')
+        }
+      })
+    }
+  } else {
+    finalOptions.multipleInputs = functions.map(() => false)
+  }
+
+  // Option: inputs
   let inputs = []
   if (finalOptions.inputs !== undefined) {
-    // lets normalize number of inputs
-    let multipleInputs
-    if (
-      finalOptions.multipleInputs !== undefined &&
-      finalOptions.multipleInputs !== false
-    ) {
-      // validate type
-      if (typeof finalOptions.multipleInputs === typeof true) {
-        if (
-          !(finalOptions.inputs instanceof Array) ||
-          finalOptions.inputs.length < 2
-        ) {
-          throw new Error(
-            'You set multipleInputs to true, but your input does not have more than one element'
-          )
-        } else if (functions.length !== finalOptions.inputs.length) {
-          throw new Error(
-            'The number of inputs is not the same as number of functions'
-          )
-        } else {
-          // we set the inputs and multipleInputs to arrays
-          finalOptions.multipleInputs = functions.map(
-            () => finalOptions.multipleInputs
-          )
-        }
-      } else if (!(finalOptions.multipleInputs instanceof Array)) {
-        throw new Error(
-          'Multiple inputs must accept either a boolean, or an array of booleans'
-        )
+    if (!(finalOptions.inputs instanceof Array)) {
+      // check if functions length 1, else error
+      if (functions.length === 1) {
+        finalOptions.inputs = [finalOptions.inputs]
       } else {
-        // it's an array, let's check contents
-        finalOptions.multipleInputs.forEach((mInput) => {
-          if (typeof mInput !== typeof true) {
-            throw new Error('Elements in multiple inputs must be boolean')
-          }
-        })
+        throw new Error(
+          'For multiple functions, you need multiple inputs (pass an empty array if you want no inputs)'
+        )
       }
-
-      // validate length
-      if (finalOptions.multipleInputs.length !== functions.length) {
-        throw new Error("You don't the right number of multipleInputs")
+    }
+    if (finalOptions.inputs.length !== functions.length) {
+      throw new Error("You don't the right number of multipleInputs")
+    }
+    // validation
+    for (let i = 0; i < functions.length; i++) {
+      if (
+        finalOptions.multipleInputs[i] === true &&
+        !(finalOptions.inputs[i] instanceof Array)
+      ) {
+        throw new Error(
+          'You claim to be inputting multipleInputs, but you have only provided a single element'
+        )
       }
-      multipleInputs = finalOptions.multipleInputs
-    } else {
-      // defaults to 1 input anyway
-      multipleInputs = functions.map(() => true)
     }
 
-    // now we finally push the final inputs
-    for (let i = 0; i < multipleInputs.length; i++) {
-      if (multipleInputs[i] === true) {
+    for (let i = 0; i < functions.length; i++) {
+      if (finalOptions.multipleInputs[i] === true) {
         inputs.push(finalOptions.inputs[i])
       } else {
         inputs.push([finalOptions.inputs[i]])
       }
     }
+    finalOptions.inputs = inputs
   } else {
     inputs = functions.map(() => [])
   }

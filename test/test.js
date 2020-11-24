@@ -53,18 +53,6 @@ describe('speeder', () => {
     })
   })
   describe('options', () => {
-    it.skip('works with maximum options, on multiple functions', async (done) => {
-      speeder([testFunction, testFunctionAsync], {
-        names: ['func1', 'func2'],
-        error: [false, false],
-        inputs: [[1, 2], 7],
-        multipleInputs: [true, false],
-        raw: true,
-        counts: 10,
-      }).then((result) => {
-        assert.strictEqual(result.length, 2)
-      })
-    })
     describe('errors', () => {
       it('works with multiple functions', async () => {
         await speeder([testFunction, testFunctionAsync]).then((result) => {
@@ -147,7 +135,6 @@ describe('speeder', () => {
           }).then((result) => assert.strictEqual(result[0].counts, COUNTS))
           throw new Error('false error')
         } catch (error) {
-          console.log(error)
           if (error.message === 'false error') {
             throw new Error(error.message)
           }
@@ -256,7 +243,6 @@ describe('speeder', () => {
       it('2 functions, 2 inputs', async () => {
         await speeder([testFunction, testFunction], {
           inputs: [true, true],
-          multipleInputs: true,
         })
       })
       it('1 functions, 1 inputs, multipleInputs true', async () => {
@@ -298,6 +284,18 @@ describe('speeder', () => {
           }
         }
       })
+      it('2 functions, 1 input', async () => {
+        try {
+          await speeder([testFunction, testFunction], {
+            inputs: 4,
+          })
+          throw new Error('false error')
+        } catch (error) {
+          if (error.message === 'false error') {
+            throw new Error(error)
+          }
+        }
+      })
       it('multipleInputs array, incorrect number of inputs', async () => {
         try {
           await speeder([testFunction, testFunction], {
@@ -315,7 +313,7 @@ describe('speeder', () => {
         }
       })
 
-      it('1 input, no multiple inputs', async () => {
+      it('1 input, 1 input', async () => {
         await speeder(testFunction, {
           inputs: 4,
         })
@@ -374,7 +372,6 @@ describe('speeder', () => {
         if (error.message === 'false error') {
           throw new Error(error)
         }
-        // well done
       }
     })
   })
