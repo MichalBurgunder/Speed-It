@@ -1,21 +1,27 @@
-const ss = require('simple-statistics')
+const {
+  min,
+  max,
+  mean,
+  median,
+  variance,
+  standardDeviation,
+} = require('simple-statistics')
 
 function analyzeData(rawData, options) {
   if (rawData.length === 0) {
     throw new Error("Couldn't collect any data points for analysis")
   }
-  const finalAnalysis = {
-    min: ss.min(rawData),
-    max: ss.max(rawData),
-    mean: ss.mean(rawData),
-    median: ss.median(rawData),
-    variance: ss.variance(rawData),
-    std: ss.standardDeviation(rawData),
-    counts: rawData.length,
-  }
-
   if (options.raw) {
-    finalAnalysis.raw = rawData
+    return rawData
+  }
+  const finalAnalysis = {
+    min: min(rawData),
+    max: max(rawData),
+    mean: mean(rawData),
+    median: median(rawData),
+    variance: variance(rawData),
+    std: standardDeviation(rawData),
+    counts: rawData.length,
   }
 
   return finalAnalysis

@@ -169,8 +169,8 @@ describe('speeder', () => {
         await speeder(testFunction, {
           raw: true,
         }).then((result) => {
-          assert.strictEqual(!!result.raw, true)
-          assert.strictEqual(result.raw.length, COUNTS)
+          assert.strictEqual(!!result, true)
+          assert.strictEqual(result.length, COUNTS)
         })
       })
       it('outputs no rawData if set to false', async () => {
