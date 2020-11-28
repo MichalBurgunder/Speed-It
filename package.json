@@ -1,19 +1,23 @@
 {
+  "author": "Michal Burgunder",
+  "licence": "MIT",
   "name": "speeder",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MichalBurgunder/speeder.git"
+  },
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
     "test": "nyc mocha"
   },
-  "author": "",
-  "license": "ISC",
   "description": "",
   "dependencies": {
     "simple-statistics": "7.3.0"
   },
   "devDependencies": {
-    "nyc": "15.1.0",
     "istanbul": "0.4.5",
-    "mocha": "8.2.1"
+    "mocha": "8.2.1",
+    "nyc": "15.1.0"
   }
 }
