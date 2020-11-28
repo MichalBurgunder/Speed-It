@@ -1,3 +1,3 @@
-const { speeder } = require('./speeder/performance-checker')
+const { speeder } = require('./speeder')
 
 module.exports = speeder

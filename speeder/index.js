@@ -12,8 +12,7 @@ const { normalizeOptions } = require('./option-normalizer')
  *  @param {[Object]} inputs:  An array of inputs
  *  @param {Boolean} multipleInputs:  Whether you are inputting mutiple inputs
  *  @param {Boolean} variableInput:  // TODO // Whether the same input should be used in order to test cumulative behaviour
- *  @param {Boolean} raw:  gives back all analyzed data (default false)
- *  @param {Boolean} basicAnalysis: returns the basic analysis TODO
+ *  @param {Boolean} raw:  gives back the raw data (default false)
  *  @param {Number} counts: TODO Determines how many times the function should be run
  *  @param {[Number]} errorOutAfter: TODO gives a percentage of how many thrown errors are accepted (assumes error is false)
  *
