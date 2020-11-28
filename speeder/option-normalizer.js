@@ -1,38 +1,35 @@
 const { COUNTS } = require('./globals')
 
-function normalizeOptions(theFunctions, options) {
-  const functions =
-    theFunctions instanceof Array ? theFunctions : [theFunctions]
-  const finalOptions = options ? options : {}
-  // Let's name our function to ease display
-
-  // Option: counts
+function _normalizeCounts(finalOptions) {
   if (!finalOptions.counts) {
     finalOptions.counts = COUNTS
   }
-  // Options: raw
-  finalOptions.raw = finalOptions.raw ? finalOptions.raw : false
+}
 
-  // Option: names
-  let names
+function _normalizeRaw(finalOptions) {
+  finalOptions.raw = finalOptions.raw ? finalOptions.raw : false
+}
+function _normalizeNames(finalOptions, functions) {
   if (finalOptions.names) {
     if (finalOptions.names instanceof Array) {
-      names = finalOptions.names
+      return finalOptions.names
     } else if (typeof finalOptions.names !== typeof '') {
       throw new Error('Function name must be a string')
     } else {
       // singular name for singular function
-      names = [finalOptions.names]
+      return [finalOptions.names]
     }
   } else {
     // though an option, we are going to name our function by default
-    names = []
+    const names = []
     for (let i = 0; i < functions.length; i++) {
       names.push(`Function ${i + 1}`)
     }
+    return names
   }
+}
 
-  // Options: errors
+function _normalizeErrors(finalOptions, functions) {
   let errors = []
   if (!finalOptions.errors) {
     for (let i = 0; i < functions.length; i++) {
@@ -50,10 +47,10 @@ function normalizeOptions(theFunctions, options) {
       'Inputted errors array is not the same length as the function array'
     )
   }
+  return errors
+}
 
-  finalOptions.errors = errors
-
-  // Option: errorOutAfter
+function _normalizeErrorOutAfter(finalOptions, functions) {
   if (!finalOptions.errorOutAfter) {
     // we default to 0
     finalOptions.errorOutAfter = functions.map(() => 1)
@@ -82,8 +79,9 @@ function normalizeOptions(theFunctions, options) {
       }
     })
   }
+}
 
-  // Option: multipleInputs
+function _normalizeMultipleInputs(finalOptions, functions) {
   if (finalOptions.multipleInputs !== undefined) {
     // boolean
     if (typeof finalOptions.multipleInputs === typeof true) {
@@ -110,8 +108,9 @@ function normalizeOptions(theFunctions, options) {
   } else {
     finalOptions.multipleInputs = functions.map(() => false)
   }
+}
 
-  // Option: inputs
+function _normalizeInputs(finalOptions, functions) {
   let inputs = []
   if (finalOptions.inputs !== undefined) {
     if (!(finalOptions.inputs instanceof Array)) {
@@ -150,8 +149,32 @@ function normalizeOptions(theFunctions, options) {
   } else {
     inputs = functions.map(() => [])
   }
+  return inputs
+}
+function normalizeOptions(theFunctions, options) {
+  const functions =
+    theFunctions instanceof Array ? theFunctions : [theFunctions]
+  const finalOptions = options ? options : {}
 
-  return { functions, names, errors, inputs, options: finalOptions }
+  _normalizeCounts(finalOptions)
+  _normalizeRaw(finalOptions)
+  _normalizeNames(finalOptions, functions)
+
+  const names = _normalizeNames(finalOptions, functions)
+  const errors = _normalizeErrors(finalOptions, functions)
+  finalOptions.errors = errors
+
+  _normalizeErrorOutAfter(finalOptions, functions)
+  _normalizeMultipleInputs(finalOptions, functions)
+  const inputs = _normalizeInputs(finalOptions, functions)
+
+  return {
+    functions,
+    names,
+    errors: finalOptions.errors,
+    inputs,
+    options: finalOptions,
+  }
 }
 
 module.exports = { normalizeOptions }
