@@ -43,21 +43,18 @@ const result = await speeder([testFunction, testFunction2], {inputs: [777, true]
 as well as have inputs for all of these functions as well:
 
 ```
-
 const result = await speeder([testFunction, testFunction2], {inputs: [["firstInput", ["secondInput"]], [true, false]]})
-
 ```
 
 You can also create your own analytics pipeline by only fetching the raw data:
 
 ```
-
 const result = await speeder([testFunction, testFunction2], {raw: true})
 console.log(result) // => [0.023, 0.022, 0.045, ....]
-
 ```
 
 Full list of options:
+
 `{names: "fetchData function"}`: Return the analysis with the specified string name
 
 `{inputs: [88, true, ...]` (default no inputs): Executes the function with the given inputs (use double arrays for multiple functions).
@@ -70,9 +67,8 @@ Full list of options:
 
 `{raw: true}` (default false): If true, returns an array of datapoints
 
-`{counts: 100}` (default 1000): Specifies the number of times the functions are run
+`{counts: 75}` (default 1000): Specifies the number of times the functions are run
 
-```
 ## Support
-Feel free to open issues and request features on [github](https://github.com/MichalBurgunder/speeder).
-```
+
+Feel free to open issues or request features on [github](https://github.com/MichalBurgunder/speeder).
