@@ -61,13 +61,13 @@ Full list of options:
 
 `{names: "fetchData function"}`: Return the analysis with the specified string name
 
-`{inputs: [88, true, ...]` (default no inputs): Executes the function with the given inputs (use double arrays for multiple functions).
+`{inputs: [88, true, ...]` (default no inputs): Executes the function with the given inputs (use double arrays for multiple functions)
 
 `{multipleInputs: true}` (default: false): Whether you are inputting mutiple values into the functions or not (NOTE: for multiple functions, you can input an array: `{multipleInputs: [true, true, false, true,...]}`)
 
 `{errors: true}` (default false): If set to true, and an error is thrown, it includes this particular datapoint in the analysis.
 
-`{errorOutAfter: 10}` (default 1): Specifies the number of errors that may occur before execution is halted (used in conunction with the `errors` option). If an error is thrown, and `{errors: false}`, it will not include this data point in the analysis
+`{errorOutAfter: 10}` (default 1): Specifies the number of errors that may occur before execution is halted (used in conjunction with the `errors` option). If an error is thrown, and `{errors: false}`, it will not include this data point in the analysis
 
 `{raw: true}` (default false): If true, returns an array of datapoints
 
