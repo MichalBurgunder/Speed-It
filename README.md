@@ -58,6 +58,7 @@ console.log(result) // => [0.023, 0.022, 0.045, ....]
 ```
 
 Full list of options:
+
 `{names: "fetchData function"}`: Return the analysis with the specified string name
 
 `{inputs: [88, true, ...]` (default no inputs): Executes the function with the given inputs (use double arrays for multiple functions).
@@ -72,7 +73,7 @@ Full list of options:
 
 `{counts: 100}` (default 1000): Specifies the number of times the functions are run
 
-```
+
 ## Support
 Feel free to open issues and request features on [github](https://github.com/MichalBurgunder/speeder).
-```
+
