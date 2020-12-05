@@ -1,5 +1,5 @@
-const { collectData } = require('./data-collector')
-const { analyzeData } = require('./data-analyzer')
+const { collectData } = require('./data-collection')
+const { analyzeData } = require('./analyzer')
 const { normalizeOptions } = require('./option-normalizer')
 /**
  *
@@ -7,14 +7,14 @@ const { normalizeOptions } = require('./option-normalizer')
  * Either an array of functions, or a single function
  * @param {Object} options
  *  {
- *  @param {[String] | String} names:  an array of names, parallel to the functions, in order to prettify graph display. If not given, will name the functions in a standard way
- *  @param {[Boolean]} error:  whether we are expecting an error to be received by the function (default false)
- *  @param {[Object]} inputs:  An array of inputs
- *  @param {Boolean} multipleInputs:  Whether you are inputting mutiple inputs
- *  @param {Boolean} variableInput:  // TODO // Whether the same input should be used in order to test cumulative behaviour
- *  @param {Boolean} raw:  gives back the raw data (default false)
- *  @param {Number} counts: TODO Determines how many times the function should be run
- *  @param {[Number]} errorOutAfter: TODO gives a percentage of how many thrown errors are accepted (assumes error is false)
+ *   names {[String] | String}:  an array of names, parallel to the function array
+ *   error {[Boolean]}:  whether we are expecting an error to be received by the function (default false)
+ *   inputs  {[Object]}:  An array of inputs
+ *   multipleInputs {Boolean|[Boolean]}:  Whether you are inputting mutiple inputs
+ *   variableInput {Boolean}:  // TODO // Whether the same input should be used in order to test cumulative behaviour
+ *   raw {Boolean}: gives back the raw data (default false)
+ *   counts {Number}: TODO Determines how many times the function should be run
+ *   errorOutAfter {Number|[Number]}: TODO gives a percentage of how many thrown errors are accepted (assumes error is false)
  *
  * }
  */
