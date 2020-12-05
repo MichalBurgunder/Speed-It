@@ -14,7 +14,6 @@ async function collectData(theFunction, batch, pos) {
     try {
       if (theFunction[Symbol.toStringTag] === 'AsyncFunction') {
         // we run it asynchronously
-
         beforeAwait = performance.now()
         await theFunction(...copiedInputs)
         afterAwait = performance.now()

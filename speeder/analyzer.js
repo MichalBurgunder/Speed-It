@@ -8,11 +8,11 @@ const {
 } = require('simple-statistics')
 
 function analyzeData(rawData, options) {
-  if (rawData.length === 0) {
-    throw new Error("Couldn't collect any data points for analysis")
-  }
   if (options.raw) {
     return rawData
+  }
+  if (rawData.length === 0) {
+    throw new Error('No data received for analysis')
   }
   const finalAnalysis = {
     min: min(rawData),
