@@ -1,6 +1,6 @@
 # Speeder
 
-Quickly assesses function speed for node.js functions by running the function multiple times, with a second input to define more refined options. Simple example:
+Quickly assesses function speed for node.js functions by running the function multiple times. Simple example:
 
 ```
   const speeder = require('speeder')
@@ -57,13 +57,13 @@ Full list of options:
 
 `{names: "fetchData function"}`: Return the analysis with the specified string name
 
-`{inputs: [88, true, ...]` (default no inputs): Executes the function with the given inputs (use double arrays for multiple functions).
+`{inputs: [88, true, ...]` (default no inputs): Executes the function with the given inputs (use double arrays for multiple functions)
 
 `{multipleInputs: true}` (default: false): Whether you are inputting mutiple values into the functions or not (NOTE: for multiple functions, you can input an array: `{multipleInputs: [true, true, false, true,...]}`)
 
 `{errors: true}` (default false): If set to true, and an error is thrown, it includes this particular datapoint in the analysis.
 
-`{errorOutAfter: 10}` (default 1): Specifies the number of errors that may occur before execution is halted (used in conunction with the `errors` option). If an error is thrown, and `{errors: false}`, it will not include this data point in the analysis
+`{errorOutAfter: 10}` (default 1): Specifies the number of errors that may occur before execution is halted (used in conjunction with the `errors` option). If an error is thrown, and `{errors: false}`, it will not include this data point in the analysis
 
 `{raw: true}` (default false): If true, returns an array of datapoints
 
@@ -71,4 +71,4 @@ Full list of options:
 
 ## Support
 
-Feel free to open issues or request features on [github](https://github.com/MichalBurgunder/speeder).
+Feel free to open issues and request features on [github](https://github.com/MichalBurgunder/speeder).
