@@ -1,10 +1,15 @@
-# Speeder
+# speeder
 
-Quickly assesses function speed for node.js functions by running the function multiple times. Simple example:
+Quickly assesses function speed for node.js functions.
+
+Simple example:
 
 ```
   const speeder = require('speeder')
-  // ...
+
+  function testFunction() {
+    // ...
+  }
 
   const result = await speeder(testFunction)
   console.log(result)
