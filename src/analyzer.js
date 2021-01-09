@@ -5,14 +5,14 @@ const {
   median,
   variance,
   standardDeviation,
-} = require('simple-statistics')
+} = require('simple-statistics');
 
 function analyzeData(rawData, options) {
   if (options.raw) {
-    return rawData
+    return rawData;
   }
   if (rawData.length === 0) {
-    throw new Error('No data received for analysis')
+    throw new Error('No data received for analysis');
   }
   const finalAnalysis = {
     min: min(rawData),
@@ -22,9 +22,9 @@ function analyzeData(rawData, options) {
     variance: variance(rawData),
     std: standardDeviation(rawData),
     counts: rawData.length,
-  }
+  };
 
-  return finalAnalysis
+  return finalAnalysis;
 }
 
-module.exports = { analyzeData }
+module.exports = { analyzeData };

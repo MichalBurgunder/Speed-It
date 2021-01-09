@@ -1,6 +1,6 @@
-const { collectData } = require('./data-collection')
-const { analyzeData } = require('./analyzer')
-const { normalizeOptions } = require('./option-normalizer')
+const { collectData } = require('./data-collection');
+const { analyzeData } = require('./analyzer');
+const { normalizeOptions } = require('./option-normalizer');
 /**
  *
  * @param {[Function] | Function} theFunctions
@@ -20,20 +20,20 @@ const { normalizeOptions } = require('./option-normalizer')
  */
 async function performanceChecker(theFunctions, options) {
   // we are going to arrayify our inputs, so that we can simply loop through them, regarless wehther we get a single function, or an array of them
-  const batch = normalizeOptions(theFunctions, options)
+  const batch = normalizeOptions(theFunctions, options);
 
-  const rawData = []
+  const rawData = [];
   for (let i = 0; i < batch.functions.length; i++) {
-    const functionRawData = await collectData(batch.functions[i], batch, i)
-    rawData.push(functionRawData)
+    const functionRawData = await collectData(batch.functions[i], batch, i);
+    rawData.push(functionRawData);
   }
-  const analyzedData = []
+  const analyzedData = [];
   for (let i = 0; i < rawData.length; i++) {
-    const analysis = await analyzeData(rawData[i], batch.options)
-    analyzedData.push(analysis)
-    analyzedData[i].name = batch.names[i]
+    const analysis = await analyzeData(rawData[i], batch.options);
+    analyzedData.push(analysis);
+    analyzedData[i].name = batch.names[i];
   }
-  return analyzedData.length === 1 ? analyzedData[0] : analyzedData
+  return analyzedData.length === 1 ? analyzedData[0] : analyzedData;
 }
 
-module.exports = { speeder: performanceChecker }
+module.exports = { speeder: performanceChecker };
