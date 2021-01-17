@@ -1,5 +1,3 @@
-const { ERROR_OUT_AT } = require('./globals');
-
 function errorHandlingProcess(countsOfError, options, pos, error) {
   if (options.errors[pos]) {
     return true;

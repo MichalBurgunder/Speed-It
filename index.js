@@ -1,3 +1,3 @@
-const { speeder } = require('./src')
+const { speeder } = require('./src');
 
-module.exports = speeder
+module.exports = speeder;

@@ -16,8 +16,8 @@ describe('speeder', () => {
   }
 
   describe('no options', () => {
-    it('single function returns single object', async () => {
-      await speeder(testFunction).then((result) => {
+    it('single function returns single object with verbose', async () => {
+      await speeder(testFunction, { verbose: true }).then((result) => {
         assert.strictEqual(result.min * 0, 0);
         assert.strictEqual(result.max * 0, 0);
         assert.strictEqual(result.mean * 0, 0);
@@ -34,28 +34,32 @@ describe('speeder', () => {
       });
     });
     it('works with sync and async functions', async () => {
-      await speeder(testFunctionAsync).then((result) => {});
-      await speeder(testFunction).then((result) => {
+      await speeder(testFunctionAsync).then(() => {});
+      await speeder(testFunction, { verbose: true }).then((result) => {
         assert.strictEqual(typeof result.min, typeof 0);
         assert.strictEqual(typeof result.min, typeof 0);
       });
     });
     it('creates a default name if names are not given', async () => {
-      await speeder(testFunction).then((result) => {
+      await speeder(testFunction, { verbose: true }).then((result) => {
         assert.strictEqual(result.name, 'Function 1');
       });
     });
     it('creates a default names if names are not given', async () => {
-      await speeder([testFunction, testFunction]).then((result) => {
-        assert.strictEqual(result[0].name, 'Function 1');
-        assert.strictEqual(result[1].name, 'Function 2');
-      });
+      await speeder([testFunction, testFunction], { verbose: true }).then(
+        (result) => {
+          assert.strictEqual(result[0].name, 'Function 1');
+          assert.strictEqual(result[1].name, 'Function 2');
+        }
+      );
     });
   });
   describe('options', () => {
     describe('errors', () => {
       it('works with multiple functions', async () => {
-        await speeder([testFunction, testFunctionAsync]).then((result) => {
+        await speeder([testFunction, testFunctionAsync], {
+          verbose: true,
+        }).then((result) => {
           assert.strictEqual(result.length, 2);
           assert.strictEqual(typeof result[0].min, typeof 4.4);
           assert.strictEqual(typeof result[0].max, typeof 4.4);
@@ -66,7 +70,7 @@ describe('speeder', () => {
         });
       });
       it('works with single function', async () => {
-        await speeder(testFunction).then((result) => {
+        await speeder(testFunction, { verbose: true }).then((result) => {
           assert.strictEqual(typeof result.min, typeof 4.4);
           assert.strictEqual(typeof result.max, typeof 4.4);
           assert.strictEqual(typeof result.mean, typeof 4.4);
@@ -122,9 +126,10 @@ describe('speeder', () => {
         }
       });
       it('does an analysis when we expect an error', async () => {
-        await speeder(errorFunction, { errors: true }).then((result) =>
-          assert.strictEqual(typeof result.mean, typeof 8.8)
-        );
+        await speeder(errorFunction, {
+          errors: true,
+          verbose: true,
+        }).then((result) => assert.strictEqual(typeof result.mean, typeof 8.8));
       });
       it('errors out after a certain amount of errors', async () => {
         try {
@@ -139,6 +144,7 @@ describe('speeder', () => {
       it('works when multiple functions & errors were inputted', async () => {
         await speeder([testFunction, testFunction], {
           errors: [true, true],
+          verbose: true,
         }).then((result) => assert.strictEqual(result[0].counts, COUNTS));
       });
       it('throws error when errors not the same length as functions', async () => {
@@ -212,11 +218,13 @@ describe('speeder', () => {
       it('single name, for single function', async () => {
         await speeder(testFunction, {
           names: 'inputted name',
+          verbose: true,
         }).then((result) => assert.strictEqual(result.name, 'inputted name'));
       });
       it('gives each analysis given names', async () => {
         await speeder([testFunction, testFunctionAsync], {
           names: ['My Function', 'My Second Function'],
+          verbose: true,
         }).then((result) => {
           assert.strictEqual(result[0].name, 'My Function');
           assert.strictEqual(result[1].name, 'My Second Function');
@@ -234,15 +242,17 @@ describe('speeder', () => {
         }
       });
       it('default names the analysises if no names given', async () => {
-        await speeder(testFunction).then((result) => {
+        await speeder(testFunction, { verbose: true }).then((result) => {
           assert.strictEqual(result.name, 'Function 1');
         });
       });
       it('default names the analysises on multiple functions', async () => {
-        await speeder([testFunction, testFunction]).then((result) => {
-          assert.strictEqual(result[0].name, 'Function 1');
-          assert.strictEqual(result[1].name, 'Function 2');
-        });
+        await speeder([testFunction, testFunction], { verbose: true }).then(
+          (result) => {
+            assert.strictEqual(result[0].name, 'Function 1');
+            assert.strictEqual(result[1].name, 'Function 2');
+          }
+        );
       });
     });
     describe('inputs / multipleInputs', () => {
@@ -376,13 +386,13 @@ describe('speeder', () => {
       }).then(() => {});
     });
     it('works with multiple inputs, multipleInputs (array input)', async () => {
-      const result = await speeder([testFunction, testFunction], {
+      await speeder([testFunction, testFunction], {
         inputs: [
           [77, 88],
           [77, 88],
         ],
         multipleInputs: [true, true],
-      }).then((result) => {});
+      }).then(() => {});
     });
     it('throws error when false number of inputs and non multipleInputs', async () => {
       try {

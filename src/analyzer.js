@@ -17,7 +17,6 @@ function roundResults(results, options, pos) {
       // round each parameter
       results[key] = results[key].toPrecision(options.round[pos]);
     }
-    const tt = 0;
     return results;
   }
 }
