@@ -17,6 +17,7 @@ function _normalizeNames(finalOptions, functions) {
       throw new Error('Function name must be a string');
     } else {
       // singular name for singular function
+      finalOptions.names = [finalOptions.names];
       return [finalOptions.names];
     }
   } else {
@@ -25,7 +26,7 @@ function _normalizeNames(finalOptions, functions) {
     for (let i = 0; i < functions.length; i++) {
       names.push(`Function ${i + 1}`);
     }
-    finalOptions = names;
+    finalOptions.names = names;
     return names;
   }
 }
@@ -164,18 +165,17 @@ function _normalizeVerbose(options) {
 
 function _normalizeRound(options, functions) {
   if (options.round) {
+    if (typeof options.round === typeof 7) {
+      // number, lets put it in an array
+      options.round = functions.map(() => options.round);
+    }
     if (options.round.length && options.round.length !== functions.length) {
       // array
       throw new Error(
         "Missing 'round' inputs: Not the same amount of roundings as number of functions inputted"
       );
-    } else {
-      // non array
-      let finalRoundings = [];
-      for (let i = 0; i < functions.length; i++) {
-        finalRoundings[i] = options.round;
-      }
     }
+    // we don't need to do anything then
   }
 }
 function normalizeOptions(theFunctions, options) {
@@ -185,7 +185,6 @@ function normalizeOptions(theFunctions, options) {
 
   _normalizeCounts(finalOptions);
   _normalizeRaw(finalOptions);
-  _normalizeNames(finalOptions, functions);
   _normalizeVerbose(finalOptions);
   _normalizeRound(finalOptions, functions);
   _normalizeNames(finalOptions, functions);

@@ -28,7 +28,7 @@ async function performanceChecker(theFunctions, options) {
     rawData.push(functionRawData);
   }
   const analyzedData = [];
-  for (let i = 0; i < rawData.length; i++) {
+  for (let i = 0; i < batch.functions.length; i++) {
     const analysis = await analyzeData(rawData[i], batch.options, i);
     analyzedData.push(analysis);
     analyzedData[i].name = batch.names[i];

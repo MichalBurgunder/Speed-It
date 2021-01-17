@@ -363,55 +363,103 @@ describe('speeder', () => {
           multipleInputs: [false, true],
         });
       });
-    });
-
-    it('throws error with single input, multipleInputs (array input)', async () => {
-      try {
-        await speeder(testFunction, { inputs: true, multipleInputs: true });
-        throw new Error('false error');
-      } catch (error) {
-        if (error.message === 'false error') {
-          throw new Error(error);
+      it('throws error with single input, multipleInputs (array input)', async () => {
+        try {
+          await speeder(testFunction, { inputs: true, multipleInputs: true });
+          throw new Error('false error');
+        } catch (error) {
+          if (error.message === 'false error') {
+            throw new Error(error);
+          }
+          // well done
         }
-        // well done
-      }
-    });
-    it('works with multiple inputs, multipleInputs (boolean input)', async () => {
-      await speeder([testFunction, testFunction], {
-        inputs: [
-          [77, 88],
-          [77, 88],
-        ],
-        multipleInputs: true,
-      }).then(() => {});
-    });
-    it('works with multiple inputs, multipleInputs (array input)', async () => {
-      await speeder([testFunction, testFunction], {
-        inputs: [
-          [77, 88],
-          [77, 88],
-        ],
-        multipleInputs: [true, true],
-      }).then(() => {});
-    });
-    it('throws error when false number of inputs and non multipleInputs', async () => {
-      try {
+      });
+      it('works with multiple inputs, multipleInputs (boolean input)', async () => {
         await speeder([testFunction, testFunction], {
           inputs: [
             [77, 88],
             [77, 88],
-            [77, 88],
+          ],
+          multipleInputs: true,
+        }).then(() => {});
+      });
+      it('works with multiple inputs, multipleInputs (array input)', async () => {
+        await speeder([testFunction, testFunction], {
+          inputs: [
             [77, 88],
             [77, 88],
           ],
-          multipleInputs: true,
-        });
-        throw new Error('false error');
-      } catch (error) {
-        if (error.message === 'false error') {
-          throw new Error(error);
+          multipleInputs: [true, true],
+        }).then(() => {});
+      });
+      it('throws error when false number of inputs and non multipleInputs', async () => {
+        try {
+          await speeder([testFunction, testFunction], {
+            inputs: [
+              [77, 88],
+              [77, 88],
+              [77, 88],
+              [77, 88],
+              [77, 88],
+            ],
+            multipleInputs: true,
+          });
+          throw new Error('false error');
+        } catch (error) {
+          if (error.message === 'false error') {
+            throw new Error(error);
+          }
         }
-      }
+      });
+    });
+    describe('rounding', () => {
+      it('rounds if given single number', async () => {
+        const result = await speeder([testFunction, testFunction], {
+          round: 4,
+        });
+        assert.strictEqual(String(result[0].length) < 14, true);
+        assert.strictEqual(String(result[1].length) < 14, true);
+      });
+      it('rounds if given single number, but verbose', async () => {
+        const result = await speeder([testFunction, testFunction], {
+          round: 4,
+          verbose: true,
+        });
+        assert.strictEqual(String(result[0].min.length) < 14, true);
+        assert.strictEqual(String(result[0].max.length) < 14, true);
+        assert.strictEqual(String(result[0].mean.length) < 14, true);
+        assert.strictEqual(String(result[0].std.length) < 14, true);
+        assert.strictEqual(String(result[0].median.length) < 14, true);
+        assert.strictEqual(String(result[0].variance.length) < 14, true);
+
+        assert.strictEqual(String(result[1].min.length) < 14, true);
+        assert.strictEqual(String(result[1].max.length) < 14, true);
+        assert.strictEqual(String(result[1].mean.length) < 14, true);
+        assert.strictEqual(String(result[1].std.length) < 14, true);
+        assert.strictEqual(String(result[1].median.length) < 14, true);
+        assert.strictEqual(String(result[1].variance.length) < 14, true);
+      });
+      it('rounds if given array for numbers for multiple functions', async () => {
+        const result = await speeder([testFunction, testFunction], {
+          round: [2, 12],
+        });
+        assert.strictEqual(
+          String(result[0].length).length < String(result[1].length).length,
+          true
+        );
+      });
+      it('throws error if not given correct number of round inputs', async () => {
+        try {
+          await speeder([testFunction, testFunction], {
+            round: [3, 6, 4, 1, 2],
+          });
+          throw new Error('false error');
+        } catch (error) {
+          if (error.message === 'false error') {
+            throw new Error(error);
+          }
+        }
+      });
     });
   });
 });

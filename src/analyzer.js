@@ -12,10 +12,13 @@ function roundResults(results, options, pos) {
     // round right away
     return results.toPrecision(options.round[pos]);
   } else {
+    // finalAnalysis is given, not a single number
     const keys = Object.keys(results);
-    for (let key = 0; key < keys.length; key++) {
+    for (let i = 0; i < keys.length; i++) {
       // round each parameter
-      results[key] = results[key].toPrecision(options.round[pos]);
+      if (keys[i] !== 'counts') {
+        results[keys[i]] = results[keys[i]].toPrecision(options.round[pos]);
+      }
     }
     return results;
   }
