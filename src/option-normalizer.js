@@ -25,6 +25,7 @@ function _normalizeNames(finalOptions, functions) {
     for (let i = 0; i < functions.length; i++) {
       names.push(`Function ${i + 1}`);
     }
+    finalOptions = names;
     return names;
   }
 }
@@ -53,7 +54,6 @@ function _normalizeErrors(finalOptions, functions) {
     }
   }
   finalOptions.errors = errors;
-  return errors;
 }
 
 function _normalizeErrorOutAfter(finalOptions, functions) {
@@ -157,6 +157,27 @@ function _normalizeInputs(finalOptions, functions) {
   }
   return inputs;
 }
+
+function _normalizeVerbose(options) {
+  options.verbose = !!options.verbose;
+}
+
+function _normalizeRound(options, functions) {
+  if (options.round) {
+    if (options.round.length && options.round.length !== functions.length) {
+      // array
+      throw new Error(
+        "Missing 'round' inputs: Not the same amount of roundings as number of functions inputted"
+      );
+    } else {
+      // non array
+      let finalRoundings = [];
+      for (let i = 0; i < functions.length; i++) {
+        finalRoundings[i] = options.round;
+      }
+    }
+  }
+}
 function normalizeOptions(theFunctions, options) {
   const functions =
     theFunctions instanceof Array ? theFunctions : [theFunctions];
@@ -165,18 +186,17 @@ function normalizeOptions(theFunctions, options) {
   _normalizeCounts(finalOptions);
   _normalizeRaw(finalOptions);
   _normalizeNames(finalOptions, functions);
-
-  const names = _normalizeNames(finalOptions, functions);
-  const errors = _normalizeErrors(finalOptions, functions);
-  finalOptions.errors = errors;
-
+  _normalizeVerbose(finalOptions);
+  _normalizeRound(finalOptions, functions);
+  _normalizeNames(finalOptions, functions);
+  _normalizeErrors(finalOptions, functions);
   _normalizeErrorOutAfter(finalOptions, functions);
   _normalizeMultipleInputs(finalOptions, functions);
   const inputs = _normalizeInputs(finalOptions, functions);
 
   return {
     functions,
-    names,
+    names: finalOptions.names,
     errors: finalOptions.errors,
     inputs,
     options: finalOptions,
