@@ -11,7 +11,7 @@ Simple example:
     // ...
   }
 
-  const result = await speeder(testFunction)
+  const result = await speeder(testFunction, {verbose: true})
   console.log(result)
   /**
    *  => {
@@ -73,6 +73,12 @@ Full list of options:
 `{raw: true}` (default false): If true, returns an array of datapoints
 
 `{counts: 75}` (default 1000): Specifies the number of times the functions are run
+
+`{verbose: true}` (default false): Gives you a detailed analysis of function performance
+
+`{round: 4}` (default none): Round the results to a given amount of significant figures
+
+Note, that any of the inputs can also be arrays of the specified inputts, if you input multiple functions to analyze.
 
 ## Support
 
