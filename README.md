@@ -62,7 +62,7 @@ Full list of options:
 
 `{names: "fetchData function"}`: Return the analysis with the specified string name
 
-`{inputs: [88, true, ...]` (default no inputs): Executes the function with the given inputs (use double arrays for multiple functions)
+`{inputs: 88}` (default no inputs): Executes the function with the given inputs (use double arrays for multiple functions)
 
 `{multipleInputs: true}` (default: false): Whether you are inputting mutiple values into the functions or not (NOTE: for multiple functions, you can input an array: `{multipleInputs: [true, true, false, true,...]}`)
 
@@ -78,7 +78,7 @@ Full list of options:
 
 `{round: 4}` (default none): Round the results to a given amount of significant figures
 
-Note, that any of the inputs can also be arrays of the specified inputts, if you input multiple functions to analyze.
+Note, that any of these options can also be arrays of options, if you are analyzing multiple functions.
 
 ## Support
 
