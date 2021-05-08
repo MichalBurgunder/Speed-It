@@ -8,6 +8,7 @@
   },
   "version": "1.1.1",
   "main": "index.js",
+  "types": "index.d.ts",
   "scripts": {
     "test": "nyc mocha",
     "pretest": "./node_modules/.bin/eslint --ignore-path .gitignore . --fix"
